@@ -28,38 +28,7 @@ class Environment:
         
         # Set observation
         self.observation  = torch.ones(1, self.nodes, 1, dtype=torch.float)
-#         # Add feature_1 : For each bus stop, the distance to his nearest bus stop is selected as the feature.
-#         list_obser = []
-#         for i in range( self.nodes ):
-#             min_i = 10000000000
-#             for j in range( self.nodes ):
-#                 if j !=i:
-#                     dis_i_j = np.linalg.norm(np.array(self.graph_init.all_pos[i])-np.array(self.graph_init.all_pos[j]))
-#                     if min_i > dis_i_j:
-#                         min_i = dis_i_j
-#             list_obser.append( min_i )
-#         f1 = torch.tensor(list_obser,dtype=torch.float,requires_grad=False)
-#         self.feature_1 = torch.reshape(f1, (1,self.nodes,1))
-#         #Add feature_2 : 1 if the bus stop is an exchange stop, 0 otherwise.
-        
-#         #calculate current feature for this graph
-#         g = self.graph_init
-#         g.add_center()
-#         g.add_edge_between_centers()
-#         g.add_edge_between_centerAnsBusStation()
-#         self.feature = []
-#         for i in range(40):
-#             list_near_stop_i = []
-#             feature_i = []
-#             for j in range(40,140):
-#                 if np.linalg.norm( np.array(g.all_pos[i])-np.array(g.all_pos[j]) ) < 15:
-#                     list_near_stop_i.append( j )
-#             for j in list_near_stop_i:
-#                 if j <=90:
-#                     feature_i.append(1000)
-#                 else:
-#                     feature_i.append(10)
-#             self.feature.append( np.sum(feature_i) )
+
 
         self.initial_result = self.get_reward(self.observation)
         self.initial_acc = self.initial_result[0]
@@ -96,25 +65,7 @@ class Environment:
         
         #update observation
         self.observation[:,node,:]=0
-#         #update feature_1 : For each bus stop, the distance to his nearest bus stop is selected as the feature.
-#         a1 =  np.reshape(self.observation.numpy(),-1)
-#         node_index = np.array([i for i in range(self.nodes)])[ a1 != 0 ]
-#         list_obser = []
-#         for i in range( self.nodes ):
-#             if i in node_index:
-#                 min_i = 10000000000
-#                 for j in range( self.nodes ):
-#                     if j !=i and j in node_index:
-#                         dis_i_j = np.linalg.norm(np.array(self.graph_init.all_pos[i])-np.array(self.graph_init.all_pos[j]))
-#                         if min_i > dis_i_j:
-#                             min_i = dis_i_j
-#                 list_obser.append( min_i )
-#             else:
-#                 list_obser.append( 0 )
-#         f1 = torch.tensor(list_obser,dtype=torch.float,requires_grad=False)
-#         self.feature_1 = torch.reshape(f1, (1,self.nodes,1))
-        
-        #calculate new acc
+
         
         acc_new = self.get_reward(self.observation)
         self.previous_acc = acc_new[0]
